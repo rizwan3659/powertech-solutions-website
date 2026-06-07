@@ -18,26 +18,22 @@ const staggerContainer = {
 
 export default function ContactPage() {
   return (
-    <div className="py-20 bg-white min-h-screen text-gray-900 selection:bg-red-500/30 selection:text-red-900 overflow-hidden relative">
+    <div className="pt-24 pb-10 bg-white min-h-[90vh] flex flex-col justify-center text-gray-900 selection:bg-red-500/30 selection:text-red-900 overflow-hidden relative">
       
       {/* Background ambient grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=')] [background-size:40px_40px]"></div>
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 w-full max-w-6xl">
         
         {/* Header Section */}
         <motion.div 
-          className="max-w-4xl mx-auto text-center mb-24"
+          className="max-w-4xl mx-auto text-center mb-8"
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
         >
-          <motion.div variants={fadeInUp} className="inline-flex items-center justify-center px-4 py-2 border border-red-200 text-red-600 font-bold text-xs uppercase tracking-widest mb-6">
-            Get In Touch
-          </motion.div>
-          
-          <div className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 tracking-tighter flex flex-col items-center [perspective:1000px] px-2 w-full">
-            <motion.div className="flex flex-wrap justify-center overflow-hidden gap-x-3 sm:gap-x-4 md:gap-x-5" variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05 } } }}>
+          <div className="text-3xl md:text-5xl font-black text-gray-900 mb-2 tracking-tighter flex flex-col items-center [perspective:1000px] px-2 w-full">
+            <motion.div className="flex flex-wrap justify-center overflow-hidden gap-x-3" variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05 } } }}>
               {"Contact Us.".split(" ").map((word, wIdx) => (
                 <span key={`w-${wIdx}`} className={`inline-flex whitespace-nowrap ${wIdx === 1 ? 'text-red-600' : ''}`}>
                   {word.split("").map((char, cIdx) => (
@@ -57,62 +53,61 @@ export default function ContactPage() {
             </motion.div>
           </div>
           
-          <motion.p variants={fadeInUp} className="text-base md:text-lg text-gray-500 leading-relaxed font-light mt-4 max-w-2xl mx-auto">
+          <motion.p variants={fadeInUp} className="text-sm text-gray-500 leading-relaxed font-light max-w-2xl mx-auto">
             Need a quote or emergency repair services? Our team is standing by to assist you.
           </motion.p>
         </motion.div>
 
         <motion.div 
-          className="grid lg:grid-cols-5 gap-12 max-w-6xl mx-auto"
+          className="grid lg:grid-cols-5 gap-6 max-w-6xl mx-auto"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
           variants={staggerContainer}
         >
           {/* Contact Information */}
-          <div className="lg:col-span-2 flex flex-col gap-8">
-            <motion.div variants={fadeInUp} className="bg-gray-50 p-8 md:p-10 border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8 tracking-tight">Direct Lines</h3>
+          <div className="lg:col-span-2 flex flex-col">
+            <motion.div variants={fadeInUp} className="bg-gray-50 p-6 border border-gray-200 h-full">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 tracking-tight">Direct Lines</h3>
               
-              <div className="flex flex-col gap-8">
-                <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                    <Phone size={20} />
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <Phone size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest font-bold text-gray-900 mb-1">Phone</h4>
-                    <a href="tel:01129945496" className="text-gray-600 hover:text-red-600 block text-sm">011-29945496</a>
-                    <a href="tel:01129945496" className="text-gray-500 hover:text-red-600 block text-xs mt-1">(24/7 Support)</a>
+                    <h4 className="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-0.5">Phone</h4>
+                    <a href="tel:01129945496" className="text-gray-600 hover:text-red-600 block text-xs">011-29945496</a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                    <MessageCircle size={20} />
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <MessageCircle size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest font-bold text-gray-900 mb-1">WhatsApp</h4>
-                    <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-red-600 block text-sm">Message our Engineers</a>
+                    <h4 className="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-0.5">WhatsApp</h4>
+                    <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-red-600 block text-xs">Message our Engineers</a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                    <Mail size={20} />
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <Mail size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest font-bold text-gray-900 mb-1">Email</h4>
-                    <a href="mailto:info@powertechsolutions.com" className="text-gray-600 hover:text-red-600 block text-sm">info@powertechsolutions.com</a>
+                    <h4 className="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-0.5">Email</h4>
+                    <a href="mailto:info@powertechsolutions.com" className="text-gray-600 hover:text-red-600 block text-xs">info@powertechsolutions.com</a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                    <MapPin size={20} />
+                <div className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-white border border-gray-200 text-red-600 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <MapPin size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest font-bold text-gray-900 mb-1">Headquarters</h4>
-                    <p className="text-gray-600 text-sm leading-relaxed">Shop No-1, B-43, Sudershan Park,<br/>New Delhi, Delhi - 110015</p>
+                    <h4 className="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-0.5">Headquarters</h4>
+                    <p className="text-gray-600 text-[11px] leading-tight">Shop 1, B-43, Sudershan Park,<br/>New Delhi - 110015</p>
                   </div>
                 </div>
               </div>
@@ -121,34 +116,34 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <div className="lg:col-span-3">
-            <motion.div variants={fadeInUp} className="bg-white p-8 md:p-12 border border-gray-200 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8 tracking-tight">Send a Request</h3>
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+            <motion.div variants={fadeInUp} className="bg-white p-6 md:p-8 border border-gray-200 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] h-full">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 tracking-tight">Send a Request</h3>
+              <form className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-xs uppercase tracking-widest font-bold text-gray-900 mb-2">First Name</label>
-                    <input type="text" id="firstName" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-sm rounded-none" placeholder="John" required />
+                    <label htmlFor="firstName" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">First Name</label>
+                    <input type="text" id="firstName" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="John" required />
                   </div>
                   <div>
-                    <label htmlFor="lastName" className="block text-xs uppercase tracking-widest font-bold text-gray-900 mb-2">Last Name</label>
-                    <input type="text" id="lastName" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-sm rounded-none" placeholder="Doe" required />
+                    <label htmlFor="lastName" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Last Name</label>
+                    <input type="text" id="lastName" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="Doe" required />
                   </div>
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="email" className="block text-xs uppercase tracking-widest font-bold text-gray-900 mb-2">Email Address</label>
-                    <input type="email" id="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-sm rounded-none" placeholder="john@example.com" required />
+                    <label htmlFor="email" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Email Address</label>
+                    <input type="email" id="email" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="john@example.com" required />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-xs uppercase tracking-widest font-bold text-gray-900 mb-2">Phone Number</label>
-                    <input type="tel" id="phone" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-sm rounded-none" placeholder="+91 99999 99999" required />
+                    <label htmlFor="phone" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Phone Number</label>
+                    <input type="tel" id="phone" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="+91 99999 99999" required />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-xs uppercase tracking-widest font-bold text-gray-900 mb-2">Service Required</label>
-                  <select id="service" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-sm rounded-none appearance-none">
+                  <label htmlFor="service" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Service Required</label>
+                  <select id="service" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none appearance-none">
                     <option>UPS Installation</option>
                     <option>Inverter Solutions</option>
                     <option>Battery Replacement</option>
@@ -159,37 +154,16 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs uppercase tracking-widest font-bold text-gray-900 mb-2">Message</label>
-                  <textarea id="message" rows={5} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-sm rounded-none resize-none" placeholder="Tell us about your requirements..."></textarea>
+                  <label htmlFor="message" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Message</label>
+                  <textarea id="message" rows={3} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none resize-none" placeholder="Tell us about your requirements..."></textarea>
                 </div>
 
-                <button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-widest text-sm py-4 px-8 rounded-none transition-colors flex items-center justify-center gap-2 group">
-                  Submit Request <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                <button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-widest text-[11px] py-3 px-6 rounded-none transition-colors flex items-center justify-center gap-2 group mt-2">
+                  Submit Request <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </form>
             </motion.div>
           </div>
-        </motion.div>
-
-        {/* Google Maps */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="mt-24 overflow-hidden border border-gray-200 h-[400px] w-full"
-        >
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.954490333792!2d77.1352!3d28.6311!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d032240b6164f%3A0xc3cbff7c8f416e7a!2sSudershan%20Park%2C%20New%20Delhi%2C%20Delhi%20110015!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen={false} 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-            className="filter grayscale hover:grayscale-0 transition-all duration-700"
-          >
-          </iframe>
         </motion.div>
       </div>
     </div>
