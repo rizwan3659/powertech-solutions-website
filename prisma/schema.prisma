@@ -1,0 +1,450 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ------------------------------------------------------
+// MODULE 0: AUTH & ADMIN USERS (NextAuth compatible)
+// ------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  image         String?
+  role          Role      @default(SALES_ADMIN)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  auditLogs     AuditLog[]
+  assignedLeads Lead[]
+  assignedTickets ServiceTicket[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  SUPER_ADMIN
+  SALES_ADMIN
+  SERVICE_ADMIN
+  ACCOUNTS_ADMIN
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  action      String
+  module      String
+  recordId    String?
+  beforeState Json?
+  afterState  Json?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+}
+
+// ------------------------------------------------------
+// MODULE 1: LEAD MANAGEMENT
+// ------------------------------------------------------
+
+model Lead {
+  id               String   @id @default(cuid())
+  leadNumber       String   @unique // LEAD-YYYY-NNNN
+  name             String
+  company          String?
+  mobile           String
+  altMobile        String?
+  email            String?
+  city             String?
+  state            String?
+  
+  enquiryType      String   // UPS / Battery / AMC / Service etc.
+  leadSource       String   // Website / Referral / etc.
+  utmSource        String?
+  utmMedium        String?
+  utmCampaign      String?
+  utmKeyword       String?
+  
+  priority         String   @default("Warm") // Hot, Warm, Cold
+  stage            String   @default("New")  // New, Contacted, Qualified, Won, Lost
+  lostReason       String?
+  message          String?  @db.Text
+  
+  followUpDate     DateTime?
+  followUpNotes    String?  @db.Text
+  
+  assignedToId     String?
+  assignedTo       User?    @relation(fields: [assignedToId], references: [id])
+  
+  customerId       String?  // If converted
+  customer         Customer? @relation("LeadToCustomer", fields: [customerId], references: [id])
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// ------------------------------------------------------
+// MODULE 2: CUSTOMER MANAGEMENT
+// ------------------------------------------------------
+
+model Customer {
+  id             String   @id @default(cuid())
+  type           String   // Individual / Corporate / Government
+  name           String
+  company        String?
+  contactPerson  String?
+  mobile         String   @unique
+  altMobile      String?
+  email          String?
+  address        String?  @db.Text
+  city           String?
+  state          String?
+  gst            String?
+  pan            String?
+  category       String?  // UPS / Solar / AMC
+  referredBy     String?
+
+  leads          Lead[]   @relation("LeadToCustomer")
+  installations  Installation[]
+  amcContracts   AMCContract[]
+  serviceTickets ServiceTicket[]
+  invoices       CustomerInvoice[]
+  payments       CustomerPayment[]
+  quotations     Quotation[]
+  documents      Document[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Installation {
+  id             String   @id @default(cuid())
+  customerId     String
+  customer       Customer @relation(fields: [customerId], references: [id])
+  product        String
+  capacity       String?
+  serialNumber   String
+  installDate    DateTime
+  warrantyExpiry DateTime?
+  siteAddress    String?  @db.Text
+
+  createdAt      DateTime @default(now())
+}
+
+// ------------------------------------------------------
+// MODULE 3: AMC MANAGEMENT
+// ------------------------------------------------------
+
+model AMCContract {
+  id               String   @id @default(cuid())
+  amcNumber        String   @unique // AMC-YYYY-NNNN
+  customerId       String
+  customer         Customer @relation(fields: [customerId], references: [id])
+  
+  siteAddress      String?  @db.Text
+  product          String
+  make             String?
+  model            String?
+  capacity         String?
+  serialNumber     String?
+  
+  batteryMake      String?
+  batteryAhRating  String?
+  batteryQty       Int?
+  
+  amcType          String   // Comprehensive / Non-Comprehensive
+  startDate        DateTime
+  endDate          DateTime
+  durationMonths   Int
+  
+  contractValue    Float
+  paymentTerms     String   // Annual / Half-Yearly / Quarterly
+  visitFrequency   String   // Monthly / Quarterly
+  
+  status           String   @default("Active") // Active, Expired, Renewed
+  
+  alerts           AMCAlert[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AMCAlert {
+  id            String      @id @default(cuid())
+  amcId         String
+  amc           AMCContract @relation(fields: [amcId], references: [id])
+  triggerDays   Int         // e.g. 90, 60, 30 days before expiry
+  status        String      @default("Pending") // Pending, Sent
+  sentAt        DateTime?
+  createdAt     DateTime    @default(now())
+}
+
+// ------------------------------------------------------
+// MODULE 4: SERVICE MANAGEMENT
+// ------------------------------------------------------
+
+model ServiceTicket {
+  id              String   @id @default(cuid())
+  ticketNumber    String   @unique // SVC-YYYY-NNNN
+  source          String   // Website / Phone / AMC
+  customerId      String
+  customer        Customer @relation(fields: [customerId], references: [id])
+  
+  complaintType   String   // Breakdown / PM / Installation
+  priority        String   @default("Medium") // Low, Medium, High, Critical
+  description     String   @db.Text
+  
+  assignedToId    String?
+  assignedTo      User?    @relation(fields: [assignedToId], references: [id])
+  visitDate       DateTime?
+  
+  workDoneNotes   String?  @db.Text
+  resolutionNotes String?  @db.Text
+  customerRating  Int?
+  
+  status          String   @default("Open") // Open, Assigned, In Progress, Resolved, Closed
+  
+  partsUsed       TicketPart[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model TicketPart {
+  id          String        @id @default(cuid())
+  ticketId    String
+  ticket      ServiceTicket @relation(fields: [ticketId], references: [id])
+  partName    String
+  quantity    Int
+  cost        Float
+}
+
+model Engineer {
+  id          String   @id @default(cuid())
+  name        String
+  mobile      String
+  skills      String[]
+  serviceZone String
+  status      String   @default("Active")
+}
+
+// ------------------------------------------------------
+// MODULE 5: VENDOR MANAGEMENT
+// ------------------------------------------------------
+
+model Vendor {
+  id            String   @id @default(cuid())
+  name          String
+  contactPerson String?
+  mobile        String
+  email         String?
+  website       String?
+  address       String?  @db.Text
+  gst           String?
+  pan           String?
+  products      String[]
+  paymentTerms  String?
+  creditLimit   Float?
+  status        String   @default("Active")
+
+  invoices      VendorInvoice[]
+  payments      VendorPayment[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model VendorInvoice {
+  id            String   @id @default(cuid())
+  vendorId      String
+  vendor        Vendor   @relation(fields: [vendorId], references: [id])
+  invoiceNumber String
+  invoiceDate   DateTime
+  amount        Float
+  cgst          Float?
+  sgst          Float?
+  igst          Float?
+  tds           Float?
+  status        String   @default("Pending") // Pending, Partially Paid, Paid
+  
+  createdAt     DateTime @default(now())
+}
+
+model VendorPayment {
+  id            String   @id @default(cuid())
+  vendorId      String
+  vendor        Vendor   @relation(fields: [vendorId], references: [id])
+  amount        Float
+  paymentDate   DateTime
+  mode          String   // NEFT / Cheque / UPI
+  referenceNo   String?
+  createdAt     DateTime @default(now())
+}
+
+// ------------------------------------------------------
+// MODULE 6: ACCOUNTS & BILLING
+// ------------------------------------------------------
+
+model CustomerInvoice {
+  id            String   @id @default(cuid())
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id])
+  invoiceNumber String   @unique
+  invoiceDate   DateTime
+  amount        Float
+  cgst          Float?
+  sgst          Float?
+  igst          Float?
+  status        String   @default("Unpaid")
+  dueDate       DateTime?
+  
+  createdAt     DateTime @default(now())
+}
+
+model CustomerPayment {
+  id            String   @id @default(cuid())
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id])
+  amount        Float
+  paymentDate   DateTime
+  mode          String
+  referenceNo   String?
+  createdAt     DateTime @default(now())
+}
+
+model Quotation {
+  id            String   @id @default(cuid())
+  quoteNumber   String   @unique
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id])
+  amount        Float
+  status        String   @default("Pending") // Pending, Accepted, Rejected
+  validUntil    DateTime?
+  createdAt     DateTime @default(now())
+}
+
+// ------------------------------------------------------
+// MODULE 7: CMS (Website Content Management)
+// ------------------------------------------------------
+
+model CmsProduct {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  specs       Json?
+  imageUrl    String?
+  category    String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CmsTestimonial {
+  id          String   @id @default(cuid())
+  name        String
+  company     String?
+  rating      Int
+  reviewText  String   @db.Text
+  photoUrl    String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model CmsFaq {
+  id          String   @id @default(cuid())
+  question    String
+  answer      String   @db.Text
+  category    String
+  sortOrder   Int      @default(0)
+}
+
+model CmsBlog {
+  id          String   @id @default(cuid())
+  title       String
+  body        String   @db.Text
+  author      String?
+  category    String?
+  publishDate DateTime?
+  seoTitle    String?
+  seoDesc     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CmsBanner {
+  id          String   @id @default(cuid())
+  title       String
+  imageUrl    String
+  linkUrl     String?
+  startDate   DateTime?
+  endDate     DateTime?
+  isActive    Boolean  @default(true)
+}
+
+// ------------------------------------------------------
+// SYSTEM SETTINGS & NOTIFICATIONS
+// ------------------------------------------------------
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String   // Email, SMS, WhatsApp, In-App
+  recipient String
+  subject   String?
+  body      String   @db.Text
+  status    String   @default("Pending")
+  sentAt    DateTime?
+  createdAt DateTime @default(now())
+}
+
+model WebhookLog {
+  id        String   @id @default(cuid())
+  source    String
+  payload   Json
+  status    String
+  error     String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+model Document {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  type       String   // Warranty, Contract, Photo
+  url        String
+  createdAt  DateTime @default(now())
+}

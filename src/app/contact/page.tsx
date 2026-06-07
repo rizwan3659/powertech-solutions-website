@@ -1,7 +1,8 @@
 "use client";
 
-import { Phone, Mail, MapPin, MessageCircle, Clock, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, MessageCircle, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -17,6 +18,56 @@ const staggerContainer = {
 };
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMsg("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: `${formData.get("firstName")} ${formData.get("lastName")}`.trim(),
+      email: formData.get("email"),
+      mobile: formData.get("phone"),
+      enquiryType: formData.get("service"),
+      message: formData.get("message"),
+      leadSource: "Website - Contact Form",
+      // Include UTM params if they were present in the URL (mocked here for simplicity)
+      utmSource: typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("utm_source") || "" : "",
+    };
+
+    try {
+      const res = await fetch("/api/webhook/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // The API key is usually not exposed on the frontend in a real production app without a proxy,
+          // but for this MVP webhook architecture, we can pass it if we expose it or let the route handle it without the strict key for internal calls.
+          // Note: In production, the internal Next.js form shouldn't require the external webhook API key, or it should use a different internal endpoint.
+          // For now, we will bypass the x-api-key check in the route if it's an internal origin, or we just pass a public key.
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit");
+      }
+
+      setIsSuccess(true);
+      (e.target as HTMLFormElement).reset();
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (err) {
+      setErrorMsg("Something went wrong. Please try calling us instead.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="pt-24 pb-10 bg-white min-h-[90vh] flex flex-col justify-center text-gray-900 selection:bg-red-500/30 selection:text-red-900 overflow-hidden relative">
       
@@ -118,32 +169,32 @@ export default function ContactPage() {
           <div className="lg:col-span-3">
             <motion.div variants={fadeInUp} className="bg-white p-6 md:p-8 border border-gray-200 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] h-full">
               <h3 className="text-lg font-bold text-gray-900 mb-6 tracking-tight">Send a Request</h3>
-              <form className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="firstName" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">First Name</label>
-                    <input type="text" id="firstName" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="John" required />
+                    <input type="text" id="firstName" name="firstName" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="John" required disabled={isSubmitting} />
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Last Name</label>
-                    <input type="text" id="lastName" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="Doe" required />
+                    <input type="text" id="lastName" name="lastName" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="Doe" required disabled={isSubmitting} />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="email" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Email Address</label>
-                    <input type="email" id="email" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="john@example.com" required />
+                    <input type="email" id="email" name="email" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="john@example.com" required disabled={isSubmitting} />
                   </div>
                   <div>
                     <label htmlFor="phone" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Phone Number</label>
-                    <input type="tel" id="phone" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="+91 99999 99999" required />
+                    <input type="tel" id="phone" name="phone" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none" placeholder="+91 99999 99999" required disabled={isSubmitting} />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="service" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Service Required</label>
-                  <select id="service" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none appearance-none">
+                  <select id="service" name="service" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none appearance-none" disabled={isSubmitting}>
                     <option>UPS Installation</option>
                     <option>Inverter Solutions</option>
                     <option>Battery Replacement</option>
@@ -155,12 +206,22 @@ export default function ContactPage() {
 
                 <div>
                   <label htmlFor="message" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Message</label>
-                  <textarea id="message" rows={3} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none resize-none" placeholder="Tell us about your requirements..."></textarea>
+                  <textarea id="message" name="message" rows={3} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none resize-none" placeholder="Tell us about your requirements..." disabled={isSubmitting}></textarea>
                 </div>
 
-                <button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-widest text-[11px] py-3 px-6 rounded-none transition-colors flex items-center justify-center gap-2 group mt-2">
-                  Submit Request <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+                {errorMsg && (
+                  <div className="text-red-600 text-xs font-bold">{errorMsg}</div>
+                )}
+
+                {isSuccess ? (
+                  <div className="w-full bg-green-50 text-green-700 border border-green-200 font-bold uppercase tracking-widest text-[11px] py-3 px-6 rounded-none flex items-center justify-center gap-2 mt-2">
+                    <CheckCircle2 size={16} /> Request Received Successfully
+                  </div>
+                ) : (
+                  <button type="submit" disabled={isSubmitting} className="w-full bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-widest text-[11px] py-3 px-6 rounded-none transition-colors flex items-center justify-center gap-2 group mt-2 disabled:opacity-70">
+                    {isSubmitting ? "Submitting..." : "Submit Request"} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                )}
               </form>
             </motion.div>
           </div>
