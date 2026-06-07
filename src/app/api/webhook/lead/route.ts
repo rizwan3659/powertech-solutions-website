@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendNewLeadEmail } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -75,6 +76,9 @@ export async function POST(request: Request) {
         status: "Success",
       }
     });
+
+    // Send email notification to admin asynchronously (don't block the response)
+    sendNewLeadEmail(lead).catch(err => console.error("Failed to send lead email:", err));
 
     return NextResponse.json({ success: true, leadId: lead.id }, { status: 201 });
 

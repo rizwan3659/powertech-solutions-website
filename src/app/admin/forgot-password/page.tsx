@@ -13,11 +13,20 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Mock API call since real email sending requires SendGrid/Resend
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      // We always show success even if it fails to prevent email enumeration
       setSuccess(true);
-    }, 1500);
+    } catch (error) {
+      console.error(error);
+      setSuccess(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
