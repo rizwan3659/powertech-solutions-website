@@ -2,11 +2,11 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1e293b; /* slate-800 */
-  --primary: #2563eb; /* blue-600 */
-  --primary-dark: #1d4ed8; /* blue-700 */
-  --accent: #0f172a; /* slate-900 */
-  --muted: #f8fafc; /* slate-50 */
+  --foreground: #111827; /* gray-900 */
+  --primary: #ef4444; /* red-500 */
+  --primary-dark: #dc2626; /* red-600 */
+  --accent: #f87171; /* red-400 */
+  --muted: #f9fafb; /* gray-50 */
 }
 
 @theme inline {
