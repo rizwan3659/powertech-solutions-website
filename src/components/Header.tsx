@@ -18,7 +18,7 @@ export default function Header() {
         </Link>
 
         {/* Horizontal Nav - Always visible */}
-        <nav className="flex items-center space-x-2 md:space-x-3 text-[5px] sm:text-[6px] uppercase tracking-widest font-bold text-gray-500 overflow-x-auto whitespace-nowrap w-full justify-end scrollbar-hide py-1">
+        <nav className="flex items-center space-x-3 md:space-x-5 text-[9px] sm:text-[10px] uppercase tracking-wider font-bold text-gray-500 overflow-x-auto whitespace-nowrap w-full justify-end scrollbar-hide py-1">
           <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
           <Link href="/services" className="hover:text-red-600 transition-colors">Services</Link>
           <Link href="/products" className="hover:text-red-600 transition-colors">Products</Link>
@@ -26,7 +26,7 @@ export default function Header() {
           <Link href="/contact" className="hover:text-red-600 transition-colors">Contact</Link>
           <a
             href="tel:01129945496"
-            className="bg-red-600 text-white px-1.5 py-0.5 rounded-none hover:bg-red-700 transition-colors font-bold ml-1 shrink-0 text-[5px] sm:text-[6px]"
+            className="bg-red-600 text-white px-3 py-1 rounded-none hover:bg-red-700 transition-colors font-bold ml-1 shrink-0 text-[9px] sm:text-[10px]"
           >
             Call Us
           </a>
