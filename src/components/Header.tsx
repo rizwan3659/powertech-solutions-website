@@ -24,12 +24,20 @@ export default function Header() {
           <Link href="/products" className="hover:text-red-600 transition-colors">Products</Link>
           <Link href="/about" className="hover:text-red-600 transition-colors">About</Link>
           <Link href="/contact" className="hover:text-red-600 transition-colors">Contact</Link>
-          <a
-            href="tel:01129945496"
-            className="bg-red-600 text-white px-3 py-1 rounded-none hover:bg-red-700 transition-colors font-bold ml-1 shrink-0 text-[9px] sm:text-[10px]"
-          >
-            Call Us
-          </a>
+          <div className="flex items-center space-x-2 ml-1 border-l border-gray-200 pl-3">
+            <Link 
+              href="/admin/login" 
+              className="text-gray-900 bg-gray-100 hover:bg-gray-200 px-3 py-1 transition-colors font-bold shrink-0 text-[9px] sm:text-[10px]"
+            >
+              Admin Login
+            </Link>
+            <a
+              href="tel:01129945496"
+              className="bg-red-600 text-white px-3 py-1 rounded-none hover:bg-red-700 transition-colors font-bold shrink-0 text-[9px] sm:text-[10px]"
+            >
+              Call Us
+            </a>
+          </div>
         </nav>
       </div>
     </header>
