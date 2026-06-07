@@ -18,22 +18,22 @@ export default function Header() {
         </Link>
 
         {/* Horizontal Nav - Always visible */}
-        <nav className="flex items-center space-x-3 md:space-x-5 text-[9px] sm:text-[10px] uppercase tracking-wider font-bold text-gray-500 overflow-x-auto whitespace-nowrap w-full justify-end scrollbar-hide py-1">
+        <nav className="flex items-center space-x-2 md:space-x-5 text-[10px] md:text-xs lg:text-sm uppercase tracking-wider font-bold text-gray-500 overflow-x-auto whitespace-nowrap w-full justify-end scrollbar-hide py-1">
           <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
           <Link href="/services" className="hover:text-red-600 transition-colors">Services</Link>
           <Link href="/products" className="hover:text-red-600 transition-colors">Products</Link>
           <Link href="/about" className="hover:text-red-600 transition-colors">About</Link>
           <Link href="/contact" className="hover:text-red-600 transition-colors">Contact</Link>
-          <div className="flex items-center space-x-2 ml-1 border-l border-gray-200 pl-3">
+          <div className="flex items-center space-x-1.5 md:space-x-3 ml-1 md:ml-3 border-l border-gray-200 pl-2 md:pl-4">
             <Link 
               href="/admin/login" 
-              className="text-gray-900 bg-gray-100 hover:bg-gray-200 px-3 py-1 transition-colors font-bold shrink-0 text-[9px] sm:text-[10px]"
+              className="text-gray-900 bg-gray-100 hover:bg-gray-200 px-2 py-1 md:px-4 md:py-1.5 transition-colors font-bold shrink-0 text-[9px] md:text-xs lg:text-sm rounded"
             >
               Admin Login
             </Link>
             <a
               href="tel:01129945496"
-              className="bg-red-600 text-white px-3 py-1 rounded-none hover:bg-red-700 transition-colors font-bold shrink-0 text-[9px] sm:text-[10px]"
+              className="bg-red-600 text-white px-2 py-1 md:px-4 md:py-1.5 hover:bg-red-700 transition-colors font-bold shrink-0 text-[9px] md:text-xs lg:text-sm rounded"
             >
               Call Us
             </a>
