@@ -25,6 +25,8 @@ export type Product = {
   brand: string;
   /** Local, web-optimised image served from /public/products. */
   image: string | null;
+  /** Optional additional images for the product gallery. */
+  images?: string[];
   /** SEO-friendly alt text describing the image contents. */
   imageAlt: string;
   /** Marketing overview paragraph(s). */
@@ -179,6 +181,7 @@ export const products: Product[] = [
     subcategorySlug: "smf-batteries",
     brand: "Amaron Quanta",
     image: IMG("amaron-quanta-smf-battery.jpg"),
+    images: [IMG("amaron-quanta-smf-battery.jpg"), IMG("smf-battery.jpg")],
     imageAlt: "Amaron Quanta SMF VRLA batteries in multiple Ah ratings with 3-year warranty marking",
     overview:
       "The Amaron Quanta SMF (Sealed Maintenance-Free) battery is a Valve Regulated Lead Acid (VRLA) battery built for standby and cyclic UPS applications. Its spill-proof, leak-proof construction lets it be mounted in any orientation with zero topping-up or maintenance, making it the preferred choice for online UPS systems, data centres and telecom sites.",
@@ -565,6 +568,7 @@ export const products: Product[] = [
     subcategorySlug: "online-ups",
     brand: "Powertech",
     image: IMG("powertech-online-ups.jpg"),
+    images: [IMG("powertech-online-ups.jpg"), IMG("online-ups-manufacturers.jpg")],
     imageAlt: "Powertech online UPS tower units with LCD display, 1KVA to 100KVA range",
     overview:
       "The Powertech online UPS range delivers true double-conversion power protection from 1 KVA to 100 KVA. With zero transfer time and pure sine wave output, it isolates connected equipment from all mains disturbances — sags, surges, spikes and outages — making it ideal for servers, medical equipment and sensitive electronics.",

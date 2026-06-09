@@ -459,3 +459,17 @@ model PasswordResetToken {
 
   @@index([email])
 }
+
+// Admin-managed dynamic pages (About extras, policies, info pages, etc.).
+// Rendered publicly at /{slug}. Supports unlimited custom pages.
+model CmsPage {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  body        String   @db.Text
+  seoTitle    String?
+  seoDesc     String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

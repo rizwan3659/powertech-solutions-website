@@ -18,6 +18,7 @@ import {
   COMPANY,
 } from "@/lib/catalog";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import ProductGallery from "@/components/ProductGallery";
 
 export const dynamic = "force-static";
 
@@ -119,13 +120,10 @@ export default async function ProductDetailPage({
 
         {/* Hero */}
         <div className="grid md:grid-cols-2 gap-10 mt-8 items-start">
-          <div className="bg-gray-50 border border-gray-100 rounded-lg aspect-square flex items-center justify-center p-8 sticky top-24">
-            <img
-              src={product.image || "https://placehold.co/600?text=No+Image"}
-              alt={product.imageAlt}
-              className="object-contain w-full h-full mix-blend-multiply"
-            />
-          </div>
+          <ProductGallery
+            images={product.images && product.images.length > 0 ? product.images : product.image ? [product.image] : []}
+            alt={product.imageAlt}
+          />
 
           <div>
             <span className="text-[11px] uppercase tracking-widest font-bold text-red-600">

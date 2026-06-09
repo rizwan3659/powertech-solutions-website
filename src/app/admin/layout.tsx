@@ -10,6 +10,7 @@ import {
   Settings,
   LogOut,
   Headset,
+  FileText,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -28,6 +29,7 @@ const navigation = [
   { name: "Customers", href: "/admin/customers", icon: Building2 },
   { name: "AMC", href: "/admin/amc", icon: Wrench },
   { name: "Service", href: "/admin/service", icon: Headset },
+  { name: "Content (CMS)", href: "/admin/cms", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

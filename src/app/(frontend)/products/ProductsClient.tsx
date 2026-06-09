@@ -27,16 +27,31 @@ export default function ProductsClient({
   initialCategory?: string;
 }) {
   const [active, setActive] = useState(initialCategory);
+  const [brand, setBrand] = useState("all");
+
+  // Brands available within the currently-selected category.
+  const brands = useMemo(() => {
+    const inCategory =
+      active === "all" ? products : products.filter((p) => p.categorySlug === active);
+    return Array.from(new Set(inCategory.map((p) => p.brand))).sort();
+  }, [active, products]);
 
   const filtered = useMemo(
     () =>
-      active === "all"
-        ? products
-        : products.filter((p) => p.categorySlug === active),
-    [active, products]
+      products.filter(
+        (p) =>
+          (active === "all" || p.categorySlug === active) &&
+          (brand === "all" || p.brand === brand)
+      ),
+    [active, brand, products]
   );
 
   const filters = [{ slug: "all", name: "All Products" }, ...categories];
+
+  function selectCategory(slug: string) {
+    setActive(slug);
+    setBrand("all"); // reset brand when category changes
+  }
 
   return (
     <div className="pt-24 pb-20 bg-white min-h-[90vh] text-gray-900 selection:bg-red-500/30 selection:text-red-900 relative">
@@ -59,7 +74,7 @@ export default function ProductsClient({
           {filters.map((f) => (
             <button
               key={f.slug}
-              onClick={() => setActive(f.slug)}
+              onClick={() => selectCategory(f.slug)}
               className={`px-4 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-colors rounded ${
                 active === f.slug
                   ? "bg-red-600 text-white border-red-600"
@@ -71,9 +86,39 @@ export default function ProductsClient({
           ))}
         </div>
 
+        {/* Brand Filter */}
+        {brands.length > 1 && (
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-10">
+            <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mr-1">Brand:</span>
+            <button
+              onClick={() => setBrand("all")}
+              className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest border rounded-full transition-colors ${
+                brand === "all"
+                  ? "bg-gray-900 text-white border-gray-900"
+                  : "bg-white text-gray-500 border-gray-200 hover:border-gray-900"
+              }`}
+            >
+              All
+            </button>
+            {brands.map((b) => (
+              <button
+                key={b}
+                onClick={() => setBrand(b)}
+                className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest border rounded-full transition-colors ${
+                  brand === b
+                    ? "bg-gray-900 text-white border-gray-900"
+                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-900"
+                }`}
+              >
+                {b}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Product Grid */}
         <motion.div
-          key={active}
+          key={`${active}-${brand}`}
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           initial="hidden"
           animate="visible"
