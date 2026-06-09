@@ -1,8 +1,10 @@
 import type { MetadataRoute } from 'next'
-import { products, categories } from '@/lib/catalog'
+import { getProducts, getCategories } from '@/lib/products-data'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://powertechsolutions.com'
+
+  const [products, categories] = await Promise.all([getProducts(), getCategories()])
 
   const categoryUrls: MetadataRoute.Sitemap = categories.map((c) => ({
     url: `${baseUrl}/products/category/${c.slug}`,

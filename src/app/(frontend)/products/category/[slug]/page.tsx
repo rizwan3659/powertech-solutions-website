@@ -2,19 +2,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import {
-  categories,
-  getCategory,
-  getProductsByCategory,
-  COMPANY,
-} from "@/lib/catalog";
+import { COMPANY } from "@/lib/catalog";
+import { getCategories, getCategoryBySlug, getProductsByCategory } from "@/lib/products-data";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
-export const dynamic = "force-static";
-
-export function generateStaticParams() {
-  return categories.map((c) => ({ slug: c.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -22,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategory(slug);
+  const category = await getCategoryBySlug(slug);
   if (!category) return { title: "Category Not Found" };
 
   return {
@@ -45,10 +37,13 @@ export default async function CategoryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const category = getCategory(slug);
+  const category = await getCategoryBySlug(slug);
   if (!category) notFound();
 
-  const categoryProducts = getProductsByCategory(category.slug);
+  const [categoryProducts, allCategories] = await Promise.all([
+    getProductsByCategory(category.slug),
+    getCategories(),
+  ]);
 
   const itemListJsonLd = {
     "@context": "https://schema.org",
@@ -145,7 +140,7 @@ export default async function CategoryPage({
         <div className="mt-16 pt-12 border-t border-gray-100">
           <h2 className="text-lg font-black tracking-tight mb-5">Other Categories</h2>
           <div className="flex flex-wrap gap-2">
-            {categories
+            {allCategories
               .filter((c) => c.slug !== category.slug)
               .map((c) => (
                 <Link

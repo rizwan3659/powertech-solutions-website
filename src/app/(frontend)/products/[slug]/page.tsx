@@ -10,21 +10,12 @@ import {
   ArrowRight,
   Phone,
 } from "lucide-react";
-import {
-  products,
-  getProduct,
-  getCategory,
-  getRelatedProducts,
-  COMPANY,
-} from "@/lib/catalog";
+import { COMPANY } from "@/lib/catalog";
+import { getProductBySlug, getCategoryBySlug, getRelatedProducts } from "@/lib/products-data";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ProductGallery from "@/components/ProductGallery";
 
-export const dynamic = "force-static";
-
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -32,7 +23,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return { title: "Product Not Found" };
 
   return {
@@ -56,18 +47,22 @@ export default async function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const category = getCategory(product.categorySlug);
-  const related = getRelatedProducts(product);
+  const category = await getCategoryBySlug(product.categorySlug);
+  const related = await getRelatedProducts(product);
 
   // ---- Schema markup ----
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    image: product.image ? `${COMPANY.url}${product.image}` : undefined,
+    image: product.image
+      ? product.image.startsWith("http")
+        ? product.image
+        : `${COMPANY.url}${product.image}`
+      : undefined,
     description: product.seo.description,
     brand: { "@type": "Brand", name: product.brand },
     category: category?.name,
