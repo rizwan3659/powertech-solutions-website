@@ -359,13 +359,49 @@ model Quotation {
 model CmsProduct {
   id          String   @id @default(cuid())
   name        String
+  slug        String?  @unique
   description String   @db.Text
   specs       Json?
-  imageUrl    String?
-  category    String
+  imageUrl    String?              // primary image
+  images      String[] @default([]) // additional gallery images (Vercel Blob URLs)
+  category    String               // category slug
+  subcategory String?              // subcategory slug
+  brand       String?
+  features    String[] @default([])
+  isFeatured  Boolean  @default(false)
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+// ------------------------------------------------------
+// CATALOG TAXONOMY (admin-managed categories & brands)
+// ------------------------------------------------------
+
+// Main + sub categories. A category with parentSlug set is a sub-category.
+model ProductCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  parentSlug  String?              // null = main category; set = sub-category
+  description String?  @db.Text
+  imageUrl    String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([parentSlug])
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logoUrl   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CmsTestimonial {

@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { Package, FileText, Image as ImageIcon, HelpCircle } from "lucide-react";
+import { Package, FileText, Image as ImageIcon, HelpCircle, FolderTree, Tag } from "lucide-react";
+import ImportCatalogButton from "@/components/admin/ImportCatalogButton";
 
 const sections = [
-  { href: "/admin/cms/products", title: "Products", desc: "Manage catalog products and images", icon: Package },
+  { href: "/admin/cms/categories", title: "Categories", desc: "Main & sub category management", icon: FolderTree },
+  { href: "/admin/cms/brands", title: "Brands", desc: "Manage brands and logos", icon: Tag },
+  { href: "/admin/cms/products", title: "Products", desc: "Manage products & multiple images", icon: Package },
   { href: "/admin/cms/pages", title: "Pages", desc: "Create & edit unlimited CMS pages", icon: FileText },
   { href: "/admin/cms/banners", title: "Banners & Ads", desc: "Manage promotional banners", icon: ImageIcon },
   { href: "/admin/cms/faqs", title: "FAQs", desc: "Manage frequently asked questions", icon: HelpCircle },
@@ -14,9 +17,11 @@ export default function CmsHubPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-2 text-gray-100">Content Management</h1>
-      <p className="text-gray-400 mb-8 text-sm">Manage the public-facing content of your website.</p>
+      <p className="text-gray-400 mb-6 text-sm">Manage the public-facing content of your website.</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <ImportCatalogButton />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {sections.map((s) => (
           <Link
             key={s.href}

@@ -14,5 +14,7 @@ export const config = {
     "/admin",
     // everything under /admin EXCEPT the public auth pages
     "/admin/((?!login|signup|forgot-password|reset-password).*)",
+    // protect admin-only APIs (image upload, catalog import)
+    "/api/admin/:path*",
   ],
 };
