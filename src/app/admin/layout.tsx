@@ -13,6 +13,15 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
+// Public auth pages render without the dashboard shell (no sidebar/header),
+// so they don't look like you're already "inside" the portal.
+const PUBLIC_ADMIN_PATHS = [
+  "/admin/login",
+  "/admin/signup",
+  "/admin/forgot-password",
+  "/admin/reset-password",
+];
+
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Leads", href: "/admin/leads", icon: Users },
@@ -29,8 +38,8 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname();
 
-  // If login page, don't show the dashboard shell
-  if (pathname === "/admin/login") {
+  // Public auth pages: don't show the dashboard shell
+  if (PUBLIC_ADMIN_PATHS.includes(pathname)) {
     return <>{children}</>;
   }
 
