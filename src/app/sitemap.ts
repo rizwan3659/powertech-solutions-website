@@ -1,7 +1,22 @@
 import type { MetadataRoute } from 'next'
+import { products, categories } from '@/lib/catalog'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://powertechsolutions.com'
+
+  const categoryUrls: MetadataRoute.Sitemap = categories.map((c) => ({
+    url: `${baseUrl}/products/category/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  const productUrls: MetadataRoute.Sitemap = products.map((p) => ({
+    url: `${baseUrl}/products/${p.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
 
   return [
     {
@@ -34,5 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+    ...categoryUrls,
+    ...productUrls,
   ]
 }

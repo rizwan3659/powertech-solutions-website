@@ -48,7 +48,7 @@ export default function Footer() {
             </div>
           </Link>
           <p className="mb-6 leading-relaxed font-light">
-            Leading provider of UPS systems, inverters, and power backup solutions. Minimal downtime, maximum efficiency.
+            Leading supplier of batteries, voltage stabilizers, online UPS systems and power backup solutions. ISO 9001:2008 certified since 2009.
           </p>
           <div className="flex space-x-4">
             <a href="#" className="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-red-600 hover:text-red-600 transition-colors text-gray-400">
@@ -68,13 +68,13 @@ export default function Footer() {
 
         {/* Services */}
         <div>
-          <h3 className="text-gray-900 font-bold text-lg mb-6 tracking-tight">Our Services</h3>
+          <h3 className="text-gray-900 font-bold text-lg mb-6 tracking-tight">Product Categories</h3>
           <ul className="space-y-4 font-light">
-            <li><Link href="/services" className="hover:text-red-600 transition-colors">UPS Installation</Link></li>
-            <li><Link href="/services" className="hover:text-red-600 transition-colors">Inverter Sales & Repair</Link></li>
-            <li><Link href="/services" className="hover:text-red-600 transition-colors">Battery Replacement</Link></li>
-            <li><Link href="/services" className="hover:text-red-600 transition-colors">Annual Maintenance (AMC)</Link></li>
-            <li><Link href="/services" className="hover:text-red-600 transition-colors">Industrial Power Solutions</Link></li>
+            <li><Link href="/products/category/batteries" className="hover:text-red-600 transition-colors">Batteries</Link></li>
+            <li><Link href="/products/category/voltage-stabilizers" className="hover:text-red-600 transition-colors">Voltage Stabilizers</Link></li>
+            <li><Link href="/products/category/ups-systems" className="hover:text-red-600 transition-colors">UPS Systems</Link></li>
+            <li><Link href="/products/category/power-backup-solutions" className="hover:text-red-600 transition-colors">Power Backup Solutions</Link></li>
+            <li><Link href="/services" className="hover:text-red-600 transition-colors">AMC & Repair Services</Link></li>
           </ul>
         </div>
 

@@ -139,7 +139,7 @@ export default function HomeClient() {
           </div>
           
           <motion.p variants={fadeInUp} className="text-sm sm:text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed font-light mt-4">
-            State-of-the-art UPS systems, industrial batteries, and intelligent inverters engineered for absolute zero downtime. Minimal design, maximum power.
+            State-of-the-art UPS systems, Amaron batteries, and servo voltage stabilizers engineered for absolute zero downtime. Minimal design, maximum power.
           </motion.p>
           
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
@@ -181,8 +181,8 @@ export default function HomeClient() {
             className="grid md:grid-cols-3 gap-6"
           >
             {[
-              { title: "AI Product Advisor", desc: "Instantly find the perfect UPS or inverter based on your exact residential or commercial load requirements." },
-              { title: "Power Calculator", desc: "Automated calculation of battery AH and inverter VA ratings required to run your specific appliances." },
+              { title: "AI Product Advisor", desc: "Instantly find the perfect UPS, battery or voltage stabilizer based on your exact residential or commercial load requirements." },
+              { title: "Power Calculator", desc: "Automated calculation of battery AH and UPS VA ratings required to run your specific appliances." },
               { title: "Smart Troubleshooting", desc: "Real-time AI assistance to diagnose UPS beep codes, red light errors, and overload indicators." }
             ].map((feature, idx) => (
               <motion.div key={idx} variants={fadeInUp} className="bg-white p-8 border border-gray-200 hover:border-red-600 transition-colors group">
@@ -205,7 +205,7 @@ export default function HomeClient() {
             <div className="max-w-2xl">
               <motion.h2 variants={fadeInUp} className="text-4xl md:text-6xl font-black text-gray-900 mb-6 tracking-tighter">Enterprise Power Solutions.</motion.h2>
               <motion.p variants={fadeInUp} className="text-lg text-gray-500 font-light leading-relaxed">
-                From high-capacity industrial systems to residential inverters. We design, supply, and maintain infrastructure that refuses to fail.
+                From high-capacity industrial systems to home power backup. We design, supply, and maintain infrastructure that refuses to fail.
               </motion.p>
             </div>
             <motion.div variants={fadeInUp}>
@@ -224,7 +224,7 @@ export default function HomeClient() {
               { icon: Battery, title: "Industrial Batteries", desc: "High-cycle tubular and SMF/Lithium battery banks designed for extreme longevity and performance." },
               { icon: ShieldCheck, title: "Comprehensive AMC", desc: "Proactive, 24/7 maintenance contracts that prevent failures before they impact your operations." },
               { icon: Factory, title: "Industrial Solutions", desc: "Heavy-duty three-phase setups capable of sustaining manufacturing floors and large complexes." },
-              { icon: Building2, title: "Solar Power Systems", desc: "Eco-friendly, high-efficiency solar inverters and panels to drastically reduce your operational costs." },
+              { icon: Building2, title: "Solar Power Systems", desc: "Eco-friendly, high-efficiency solar power systems and panels to drastically reduce your operational costs." },
               { icon: Settings, title: "Expert Installation", desc: "Precision deployment by ISO 9001:2008 certified engineers adhering to strict electrical safety standards." },
             ].map((service, idx) => (
               <motion.div 

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Our Services | PowerTech Solutions",
-  description: "Explore our comprehensive range of power backup services including UPS installation, inverter repair, battery replacement, and AMC services.",
+  title: "Our Services | Power Tech Solutions",
+  description: "Explore our comprehensive range of power backup services including UPS installation, battery replacement, voltage stabilizer supply, UPS repair and AMC services.",
 };
 
 export default function ServicesLayout({

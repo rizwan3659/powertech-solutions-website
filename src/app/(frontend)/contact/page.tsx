@@ -195,9 +195,10 @@ export default function ContactPage() {
                 <div>
                   <label htmlFor="service" className="block text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1">Service Required</label>
                   <select id="service" name="service" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 focus:ring-1 focus:ring-red-600 focus:border-red-600 outline-none transition-all text-xs rounded-none appearance-none" disabled={isSubmitting}>
-                    <option>UPS Installation</option>
-                    <option>Inverter Solutions</option>
-                    <option>Battery Replacement</option>
+                    <option>UPS Systems</option>
+                    <option>Batteries</option>
+                    <option>Voltage Stabilizers</option>
+                    <option>Power Backup Solutions</option>
                     <option>AMC Services</option>
                     <option>Emergency Repair</option>
                     <option>Other Inquiry</option>

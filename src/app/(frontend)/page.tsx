@@ -130,7 +130,7 @@ export default function Home() {
           </div>
           
           <motion.p variants={fadeInUp} className="text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed font-light mt-4">
-            State-of-the-art UPS systems and intelligent inverters engineered for zero downtime. Minimal design, maximum power.
+            Amaron batteries, servo voltage stabilizers and online UPS systems &mdash; engineered for zero downtime. Trusted power backup since 2009.
           </motion.p>
           
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
@@ -160,12 +160,12 @@ export default function Home() {
           
           <motion.div variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-12 relative">
             {[
-              { title: "UPS Installation", icon: Zap, desc: "Professional installation for online and offline UPS systems." },
-              { title: "Battery Replacement", icon: Battery, desc: "High-quality replacements with eco-friendly disposal." },
-              { title: "AMC Services", icon: ShieldCheck, desc: "Annual Maintenance Contracts to ensure 100% uptime." },
-              { title: "Inverter Repairs", icon: Wrench, desc: "Rapid diagnostic and repair services for all inverters." },
-              { title: "Emergency Support", icon: Clock, desc: "24/7 emergency troubleshooting and on-site support." },
-              { title: "Consultation", icon: Users, desc: "Free site assessment to determine your exact power needs." }
+              { title: "Online UPS Systems", icon: Zap, desc: "Powertech, Emerson & Vertiv online UPS from 1 to 100 KVA with pure sine wave output.", href: "/products/category/ups-systems" },
+              { title: "Batteries", icon: Battery, desc: "Amaron Quanta SMF, tubular, automotive and industrial batteries for every backup need.", href: "/products/category/batteries" },
+              { title: "Voltage Stabilizers", icon: ShieldCheck, desc: "Servo and automatic voltage stabilizers that protect equipment from voltage fluctuations.", href: "/products/category/voltage-stabilizers" },
+              { title: "UPS Repair & AMC", icon: Wrench, desc: "Repair and Annual Maintenance Contracts for all UPS brands to ensure 100% uptime.", href: "/products/category/power-backup-solutions" },
+              { title: "Emergency Support", icon: Clock, desc: "24/7 emergency troubleshooting and on-site support across Delhi NCR.", href: "/contact" },
+              { title: "Consultation", icon: Users, desc: "Free site assessment to determine your exact power backup needs.", href: "/contact" }
             ].map((service, idx) => (
               <motion.div variants={fadeInUp} key={idx} className="group flex flex-col bg-white p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-300">
                 <div className="mb-6 text-red-600 bg-red-50 w-16 h-16 flex items-center justify-center rounded-2xl group-hover:scale-110 transition-transform">
@@ -173,7 +173,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
                 <p className="text-gray-500 mb-6 flex-1 font-light leading-relaxed">{service.desc}</p>
-                <Link href="/services" className="text-red-600 font-medium flex items-center gap-2 hover:gap-3 transition-all mt-auto w-fit">
+                <Link href={service.href} className="text-red-600 font-medium flex items-center gap-2 hover:gap-3 transition-all mt-auto w-fit">
                   Learn more <ArrowRight size={16} />
                 </Link>
               </motion.div>
@@ -193,20 +193,20 @@ export default function Home() {
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 divide-x divide-gray-200">
             <motion.div variants={fadeInUp} className="pl-4 md:pl-0">
-              <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">15k+</span>
-              <span className="text-red-600 font-bold tracking-widest uppercase text-xs">Deployments</span>
+              <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">15+</span>
+              <span className="text-red-600 font-bold tracking-widest uppercase text-xs">Years Experience</span>
             </motion.div>
             <motion.div variants={fadeInUp} className="pl-8">
-              <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">99.9%</span>
-              <span className="text-red-600 font-bold tracking-widest uppercase text-xs">Uptime</span>
+              <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">ISO</span>
+              <span className="text-red-600 font-bold tracking-widest uppercase text-xs">9001:2008 Certified</span>
             </motion.div>
             <motion.div variants={fadeInUp} className="pl-8">
               <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">24/7</span>
               <span className="text-red-600 font-bold tracking-widest uppercase text-xs">Support</span>
             </motion.div>
             <motion.div variants={fadeInUp} className="pl-8">
-              <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">50+</span>
-              <span className="text-red-600 font-bold tracking-widest uppercase text-xs">Engineers</span>
+              <span className="block text-5xl font-black text-gray-900 mb-2 drop-shadow-sm">7+</span>
+              <span className="text-red-600 font-bold tracking-widest uppercase text-xs">Trusted Brands</span>
             </motion.div>
           </div>
         </motion.div>

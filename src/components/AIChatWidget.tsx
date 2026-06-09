@@ -5,7 +5,7 @@ import { Bot, X, Send, Calculator, Wrench, CalendarCheck, HelpCircle, MessageSqu
 import { motion, AnimatePresence } from "framer-motion";
 
 const agents = [
-  { id: "advisor", name: "Product Advisor", icon: Bot, desc: "Find the perfect UPS or Inverter", greeting: "Hi! I'm your Product Advisor. Are you looking for a backup solution for your home or business?" },
+  { id: "advisor", name: "Product Advisor", icon: Bot, desc: "Find the perfect UPS, battery or stabilizer", greeting: "Hi! I'm your Product Advisor. Are you looking for a UPS, battery, voltage stabilizer or complete power backup for your home or business?" },
   { id: "calculator", name: "Power Calculator", icon: Calculator, desc: "Calculate your battery & load requirements", greeting: "Let's calculate your power needs! How many appliances (fans, lights, PCs) do you need to run?" },
   { id: "support", name: "AMC & Repair", icon: Wrench, desc: "Schedule maintenance or repairs", greeting: "Need maintenance? Are you an existing AMC customer, or do you need a one-time repair service?" },
   { id: "tech", name: "Troubleshooting", icon: HelpCircle, desc: "Fix beep codes and errors", greeting: "I can help troubleshoot your system. Is your UPS beeping, showing a red light, or not turning on?" },
@@ -47,8 +47,8 @@ export default function AIChatWidget() {
     // Simulate AI response based on agent
     setTimeout(() => {
       let reply = "I understand. Please contact our support line at 011-29945496 for immediate assistance.";
-      if (selectedAgent === "calculator") reply = "Based on that, you'll need roughly a 1000VA to 1500VA inverter with a 150Ah battery for 4 hours of backup.";
-      if (selectedAgent === "advisor") reply = "For that setup, I highly recommend our Luminous Zelio series. Would you like a price estimate?";
+      if (selectedAgent === "calculator") reply = "Based on that, you'll need roughly a 1KVA to 1.5KVA online UPS with an Amaron Quanta 150Ah SMF battery for around 4 hours of backup.";
+      if (selectedAgent === "advisor") reply = "For that setup, I highly recommend our Powertech Online UPS paired with an Amaron Quanta SMF battery. Would you like a price estimate?";
       if (selectedAgent === "tech") reply = "A continuous beep usually indicates an overload. Try disconnecting non-essential appliances and restart the UPS.";
       
       setMessages(prev => [...prev, { role: 'ai', text: reply }]);

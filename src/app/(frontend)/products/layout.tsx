@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Products | PowerTech Solutions",
-  description: "Browse our extensive range of Online UPS, Offline UPS, Home Inverters, Industrial Inverters, Tubular Batteries, and Lithium Batteries.",
+  title: "Products — Batteries, Stabilizers & UPS Systems | Power Tech Solutions",
+  description: "Browse our range of Amaron Quanta SMF & tubular batteries, servo and automatic voltage stabilizers, online UPS systems (1–100 KVA) and power backup solutions.",
 };
 
 export default function ProductsLayout({
