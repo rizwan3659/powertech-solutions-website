@@ -22,10 +22,18 @@ export async function POST(request: Request) {
 
     // Generate a secure random token
     const token = crypto.randomBytes(32).toString("hex");
-    
-    // In a real production app, you would save this token to the database with an expiration time
-    // e.g. await prisma.passwordResetToken.create({ data: { email, token, expires: new Date(Date.now() + 3600000) } })
-    
+
+    // Persist the token with a 1-hour expiry. Invalidate any previous tokens
+    // for this email so only the most recent reset link is valid.
+    await prisma.passwordResetToken.deleteMany({ where: { email } });
+    await prisma.passwordResetToken.create({
+      data: {
+        email,
+        token,
+        expires: new Date(Date.now() + 60 * 60 * 1000),
+      },
+    });
+
     // Create the reset link
     // Assuming the app runs on VERCEL_URL or localhost
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://powertech-nine.vercel.app";

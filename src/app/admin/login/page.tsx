@@ -83,12 +83,9 @@ function LoginForm() {
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
           </button>
           
-          <div className="flex items-center justify-between mt-4 text-sm">
+          <div className="flex items-center justify-center mt-4 text-sm">
             <Link href="/admin/forgot-password" className="text-zinc-400 hover:text-white transition-colors">
               Forgot password?
-            </Link>
-            <Link href="/admin/signup" className="text-indigo-400 hover:text-indigo-300 transition-colors">
-              Create an account
             </Link>
           </div>
         </form>

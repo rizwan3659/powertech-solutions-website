@@ -10,6 +10,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    // Public self-registration is disabled. Signup is only allowed to bootstrap
+    // the very first admin account (when no users exist yet). Additional users
+    // must be created by an existing administrator.
+    const userCount = await prisma.user.count();
+    if (userCount > 0) {
+      return NextResponse.json(
+        { error: "Registration is disabled. Contact an administrator to create an account." },
+        { status: 403 }
+      );
+    }
+
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -25,7 +36,7 @@ export async function POST(request: Request) {
         name,
         email,
         passwordHash,
-        role: "SALES_ADMIN", // Default role for new signups
+        role: "SUPER_ADMIN", // First/bootstrap account is the super admin
       },
     });
 
