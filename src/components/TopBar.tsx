@@ -1,5 +1,4 @@
 import { Linkedin, Facebook, Youtube, Instagram, Phone, Mail } from "lucide-react";
-import Link from "next/link";
 
 export default function TopBar() {
   return (
