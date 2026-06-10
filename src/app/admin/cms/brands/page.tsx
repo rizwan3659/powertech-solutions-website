@@ -3,6 +3,8 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import ImageUploader from "@/components/admin/ImageUploader";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Brands | Admin Portal" };
 
 function slugify(input: string) {

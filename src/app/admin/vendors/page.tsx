@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import AddVendorForm from "./AddVendorForm";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Vendors | Admin Portal",
 };

@@ -1,6 +1,8 @@
 import prisma from '@/lib/prisma';
 import React from 'react';
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: 'AMC Contracts | Admin Portal',
 };

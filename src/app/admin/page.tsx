@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const totalLeads = await prisma.lead.count();
   const openTickets = await prisma.serviceTicket.count({

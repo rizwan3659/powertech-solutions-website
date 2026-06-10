@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Banners & Ads | Admin Portal" };
 
 function parseDate(v: FormDataEntryValue | null): Date | null {
